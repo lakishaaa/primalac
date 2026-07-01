@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Kasa</title>
+</head>
+<body>
+
+<h2>Kasa (barcode receiver)</h2>
+
+<input id="code" placeholder="Kod">
+<button onclick="add()">Dodaj</button>
+
+<ul id="lista"></ul>
+
+<h3 id="total"></h3>
+
+<script>
+
+let korpa = [];
+
+// 🔥 HVATA KOD IZ URL-A
+function getCodeFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+
+    if(code){
+        document.getElementById("code").value = code;
+        add();
+    }
+}
+
+function add(){
+    let code = document.getElementById("code").value.trim();
+    if(code === "") return;
+
+    korpa.push(code);
+
+    document.getElementById("code").value = "";
+    render();
+}
+
+function render(){
+    let lista = document.getElementById("lista");
+    lista.innerHTML = "";
+
+    korpa.forEach(x => {
+        let li = document.createElement("li");
+        li.textContent = x;
+        lista.appendChild(li);
+    });
+
+    document.getElementById("total").innerText =
+        "Broj artikala: " + korpa.length;
+}
+
+// start
+getCodeFromURL();
+
+</script>
+
+</body>
+</html>
